@@ -16,14 +16,14 @@ class Portfolio(models.Model):
     #if you define this method then Django will automatically
     # add a "View on Site" button to the model's record editing screens in the Admin site
     def get_absolute_url(self):
-        return reverse("portfolio_detail",  args=[str(self.id)])
+        return reverse("portfolio-detail",  args=[str(self.id)])
     
 
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank = False)
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, default = None)
+    portfolio = models.ForeignKey(Portfolio, null=True, on_delete=models.CASCADE, default = None)
 
     #Define default String to return the title for representing the Model object.
     def __str__(self):
@@ -33,7 +33,7 @@ class Project(models.Model):
     #if you define this method then Django will automatically
     # add a "View on Site" button to the model's record editing screens in the Admin site
     def get_absolute_url(self):
-        return reverse("project_detail",  args=[str(self.id)])
+        return reverse("project-detail",  args=[str(self.id)])
 
 class Student(models.Model):
     #list of majors to choose from
@@ -50,7 +50,8 @@ class Student(models.Model):
     name = models.CharField(max_length=200)
     email = models.CharField("UCCS Email", max_length=200)
     major = models.CharField(max_length=200, choices=major, blank = False)
-
+    portfolio = models.OneToOneField(Portfolio, null =True, on_delete=models.CASCADE, unique=True)
+    
     #Define default String to return the name for representing the Model object.
     def __str__(self):
         return self.name
@@ -61,5 +62,22 @@ class Student(models.Model):
     def get_absolute_url(self):
         return reverse("student-detail", args=[str(self.id)])
     
-    portfolio = models.OneToOneField(Portfolio, null =True, on_delete=models.CASCADE, unique=True)
+    
+
+# Model to represent the relationship between projects and portfolios.
+# Each instance of this model will have a reference to a Portfolio and a Project,
+# creating a many-to-many relationship between portfolios and projects. T
+class ProjectsInPortfolio(models.Model):
+
+    #deleting a portfolio will delete associate projects
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+
+    #deleting a project will not affect the portfolio
+    #Just the entry will be removed from this table
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+
+class Meta:
+    #ensures that each project is associated with only one portfolio
+    unique_together = ('portfolio', 'project')
     
