@@ -1,0 +1,21 @@
+<!-- inherit from base.html-->
+{% extends 'portfolio_app/base_template.html' %}
+
+
+{% block content %}
+<!--check if the database has entries for this model then iterate through them using for loop-->
+<h1>Student List</h1>
+{% if student_list %}
+<ul>
+{% for student in student_list %}
+<!--list the title of each portfolio as a link to their detail page-->
+<li>
+<a href="{{ student.get_absolute_url }}">{{ student.name }}</a>
+</li>
+{% endfor %}
+</ul>
+<!--else display this error message-->
+{% else %}
+<p>There are no students registered.</p>
+{% endif %}
+{% endblock %}
