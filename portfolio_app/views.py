@@ -23,6 +23,15 @@ class PortfolioListView(generic.ListView):
     model = Portfolio
 class PortfolioDetailView(generic.DetailView):
     model = Portfolio
+    #def get_context_data to send additional variables to template
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super(PortfolioDetailView, self).get_context_data(**kwargs)
+
+        
+        # Get projects that use the current portfolio and add it to the context
+        context['projects'] = Project.objects.filter(portfolio=context['portfolio'])
+        return context
 
 class ProjectListView(generic.ListView):
     model = Project

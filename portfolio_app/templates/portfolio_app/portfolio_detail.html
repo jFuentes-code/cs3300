@@ -10,5 +10,20 @@
 <p><strong>About:</strong> {{ portfolio.about }}</p>
 <p><strong>Contact Email:</strong> {{ portfolio.contact_email }}</p>
 
-
+<!--check if the database has entries for this model then iterate through them using for loop-->
+<h1>Project List</h1>
+{% if projects %}
+<ul>
+    
+{% for project in projects %}
+<!--list the title of each project as a link to their detail page-->
+<li>
+<a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+</li>
+{% endfor %}
+</ul>
+<!--else display this error message-->
+{% else %}
+<p>There are no projects registered.</p>
+{% endif %}
 {% endblock %}
