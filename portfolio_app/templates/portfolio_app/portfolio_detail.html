@@ -12,6 +12,7 @@
 
 <!--check if the database has entries for this model then iterate through them using for loop-->
 <h2>Project List</h2>
+<!--button for creating a new project that takes in the portfolio.id-->
 <a class="btn btn-primary" href="{% url 'create_project' portfolio.id %}" role="button">New</a>
 
 {% if projects %}
@@ -22,7 +23,9 @@
 <li>
     {{ project.title }}:
     <a class="btn btn-primary" href="{{ project.get_absolute_url }}" role="button">View</a>
+    <!--creates a update button that sets the url for update_project in urls.py-->
     <a class="btn btn-primary" href="{% url 'update_project' portfolio.id project.id%}" role="button">Update</a>
+    <!--creates a delete button that sets the url for delete_project in urls.py-->
     <a class="btn btn-primary" href="{% url 'delete_project' portfolio.id project.id%}" role="button">Delete</a>
     
 </li>

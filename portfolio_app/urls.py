@@ -16,9 +16,13 @@ path('portfolio/<int:pk>', views.PortfolioDetailView.as_view(), name='portfolio-
 path('projects/', views.ProjectListView.as_view(), name= 'project'),
 path('project/<int:pk>', views.ProjectDetailView.as_view(), name='project-detail'),
 
+#url for project creation that takes in portfolio id
 path('portfolio/<int:portfolio_id>/create_project/', views.createProject, name='create_project'),
+#url for updating a project that takes in portfolio id and project id
 path('portfolio/<int:portfolio_id>/update_project/<int:id>', views.updateProject, name='update_project'),
-#url for deletion that takes in portfolio id and project id
+#url for project deletion that takes in portfolio id and project id
 path('portfolio/<int:portfolio_id>/delete_project/<int:id>', views.deleteProject, name='delete_project'),
 
+#url for updating a portfolio that takes in portfolio id 
+path('portfolio/<int:id>/update_portfolio/', views.updatePortfolio, name='update_portfolio'),
 ]

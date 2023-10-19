@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from django.views import generic
-from .forms import ProjectForm#, PortfolioForm
+from .forms import ProjectForm, PortfolioForm
 from django.contrib import messages
 
 # Create your views here.
@@ -60,15 +60,20 @@ def createProject(request, portfolio_id):
     return render(request, 'portfolio_app/project_form.html', context)
 
 def updateProject(request, portfolio_id, id):
-    
+    #sets portfolio based on portfolio id of project in url
     portfolio = Portfolio.objects.get(pk=portfolio_id)
+    #sets the project based on the id from the url
     project = Project.objects.get(id = id)
+    #generates a project form using the current instance of the project
     form = ProjectForm(instance = project)
     
+    #check the method is as expected
     if request.method == 'POST':
         
+        #generates a project form using the current instance of the project and trys to post the updated information
         form = ProjectForm(request.POST, instance = project)
 
+        #if all required values are set then continue
         if form.is_valid():
             # Save the form without committing to the database
             project = form.save(commit=False)
@@ -79,18 +84,53 @@ def updateProject(request, portfolio_id, id):
             # Redirect back to the portfolio detail page
             return redirect('portfolio-detail', portfolio_id)
 
+    #pass in the form as a form in the dictionary so that we can use it in the project_form template
     context = {'form': form}
+    #go to project_form template with this information
     return render(request, 'portfolio_app/project_form.html', context)
 
+#method to delete a project in a portfolio
 def deleteProject(request, portfolio_id, id):
+    #sets portfolio based on portfolio id of project in url
     portfolio = Portfolio.objects.get(pk=portfolio_id)
+    #sets the project based on the id from the url
     project = Project.objects.get(id = id)
 
+    #check the method is as expected
     if request.method == 'POST':
+        #delete the project using funtion delete()
         project.delete()
         # Redirect back to the portfolio detail page
         return redirect('portfolio-detail', portfolio_id)
 
+    #pass in the project as an item in the dictionary because thats what we called it in the delete template
     context = {'item': project}
+    #go to delete template with this information
     return render(request, 'portfolio_app/delete.html', context)
 
+def updatePortfolio(request,  id):
+    #sets portfolio based on the portfolio id in url
+    portfolio = Portfolio.objects.get(pk=id)
+    #generates a portfolio form using the current instance of the portfolio
+    form = PortfolioForm(instance = portfolio)
+    
+    #check the method is as expected
+    if request.method == 'POST':
+        
+        #generates a portfolio form using the current instance of the portfolio and trys to post the updated information
+        form = PortfolioForm(request.POST, instance = portfolio)
+
+        #if all required values are set then continue
+        if form.is_valid():
+            # Save the form without committing to the database
+            student = form.save(commit=False)
+            # Set the portfolio relationship
+            student.portfolio = portfolio
+            student.save()
+
+            # Redirect back to the portfolio detail page
+            return redirect('students')
+    #pass in the form as a form in the dictionary so that we can use it in the portfolio_form template
+    context = {'form': form}
+    #go to portfolio_form template with this information
+    return render(request, 'portfolio_app/portfolio_form.html', context)
