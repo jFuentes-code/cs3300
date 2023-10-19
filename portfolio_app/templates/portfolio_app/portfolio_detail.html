@@ -11,14 +11,20 @@
 <p><strong>Contact Email:</strong> {{ portfolio.contact_email }}</p>
 
 <!--check if the database has entries for this model then iterate through them using for loop-->
-<h1>Project List</h1>
+<h2>Project List</h2>
+<a class="btn btn-primary" href="{% url 'create_project' portfolio.id %}" role="button">New</a>
+
 {% if projects %}
 <ul>
     
 {% for project in projects %}
 <!--list the title of each project as a link to their detail page-->
 <li>
-<a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+    {{ project.title }}:
+    <a class="btn btn-primary" href="{{ project.get_absolute_url }}" role="button">View</a>
+    <a class="btn btn-primary" href="{% url 'update_project' portfolio.id project.id%}" role="button">Update</a>
+    <a class="btn btn-primary" href="{% url 'delete_project' portfolio.id project.id%}" role="button">Delete</a>
+    
 </li>
 {% endfor %}
 </ul>
