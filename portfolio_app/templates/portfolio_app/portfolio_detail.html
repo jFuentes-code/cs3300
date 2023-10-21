@@ -20,15 +20,26 @@
     
 {% for project in projects %}
 <!--list the title of each project as a link to their detail page-->
-<li>
+<table>
+    <tr>
     {{ project.title }}:
-    <a class="btn btn-primary" href="{{ project.get_absolute_url }}" role="button">View</a>
-    <!--creates a update button that sets the url for update_project in urls.py-->
-    <a class="btn btn-primary" href="{% url 'update_project' portfolio.id project.id%}" role="button">Update</a>
-    <!--creates a delete button that sets the url for delete_project in urls.py-->
-    <a class="btn btn-primary" href="{% url 'delete_project' portfolio.id project.id%}" role="button">Delete</a>
+    </tr>
+    <br>
+    <tr>
+        <td>
+            <a class="btn btn-primary" href="{{ project.get_absolute_url }}" role="button">View</a>
+        </td>
+        <td>
+            <!--creates a update button that sets the url for update_project in urls.py-->
+            <a class="btn btn-primary" href="{% url 'update_project' portfolio.id project.id%}" role="button">Update</a>
+        </td>
+        <td>
+            <!--creates a delete button that sets the url for delete_project in urls.py-->
+            <a class="btn btn-primary" href="{% url 'delete_project' portfolio.id project.id%}" role="button">Delete</a>
+        </td>
+    </tr>
     
-</li>
+</table>
 {% endfor %}
 </ul>
 <!--else display this error message-->

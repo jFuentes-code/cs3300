@@ -2,6 +2,18 @@
 
 
 {% block content %}
+<head>
+<style>
+
+    #cancel{
+    background-color: blue;
+      color: white;
+      border-radius: 10%;
+      border-color: white;
+    }
+
+</style>
+</head>
 <!--get the values from the database for this model and format in html-->
 <h1>Project Title: {{ project.title }}</h1>
 
@@ -10,5 +22,7 @@
 <p><strong>Description:</strong> {{ project.description }}</p>
 <p><strong>Portfolio:</strong> {{ project.portfolio.title }}</p>
 
+<!--If cancel is clicked return to the portfolio view-->
+<a class="btn btn-primary" href="{% url 'portfolio-detail' project.portfolio_id %}" role="button">Cancel</a>
 
 {% endblock %}

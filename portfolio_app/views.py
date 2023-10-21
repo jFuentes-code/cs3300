@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .models import *
 from django.views import generic
 from .forms import ProjectForm, PortfolioForm
-from django.contrib import messages
+
 
 # Create your views here.
 def index(request): 
